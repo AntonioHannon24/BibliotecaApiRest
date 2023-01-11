@@ -19,16 +19,22 @@ public async index(){
         data:usuarios
     }
 }
-public async show({params}:HttpContextContract){
+public async show({params,bouncer}:HttpContextContract){
     const usuario = await Usuario.findOrFail(params.id)
+    await bouncer.authorize('getEditRequests',params)
+
     return{
         data:usuario
     }
+
+  
+
 }
 
-public async destroy({params}:HttpContextContract){
+public async destroy({params,bouncer}:HttpContextContract){
     
     const usuario = await Usuario.findOrFail(params.id)
+    await bouncer.authorize('getEditRequests',params)
     await usuario.delete()
     return{
         message:"Usuário Deletado Com Sucesso!!",
@@ -36,14 +42,15 @@ public async destroy({params}:HttpContextContract){
     }
 }
 
-public async update({params,request}:HttpContextContract){
+public async update({params,request,bouncer}:HttpContextContract){
 
     const body = request.body()
 
         const usuario = await Usuario.findOrFail(params.id)
+        await bouncer.authorize('getEditRequests',params)
         usuario.email = body.email
         usuario.nome = body.nome
-        usuario.tipo = body.tipo
+        usuario.role_id = body.role_id
         usuario.password = body.password
         await usuario.save()
         return{

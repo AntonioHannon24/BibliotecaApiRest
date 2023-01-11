@@ -16,7 +16,7 @@ export default class Usuario extends BaseModel {
   public password: string
 
   @column()
-  public tipo:string
+  public role_id:number
   
   @column()
   public rememberMeToken: string | null
