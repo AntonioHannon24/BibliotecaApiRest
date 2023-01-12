@@ -39,7 +39,6 @@ export const { actions } = Bouncer
 .define('getEditRequests', (user: Usuario,params) => { 
 
     if(user.role_id == 2 || user.id == params.id){
-        console.log(user.id)
         return true;
     }
     return false;

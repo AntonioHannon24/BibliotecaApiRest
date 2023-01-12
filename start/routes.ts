@@ -44,8 +44,12 @@ Route.group(()=>{// rotas para usuários autenticados
   
   Route.get("/usuarios","UsuariosController.index")
   Route.get("/usuarios/:id","UsuariosController.show")
-  Route.delete("/usuarios/:id","UsuariosController.store")
+  Route.delete("/usuarios/:id","UsuariosController.destroy")
   Route.patch("/usuarios/:id","UsuariosController.update")
+
+  Route.resource("/autor","AutorsController").apiOnly()
+  Route.resource("/genero","GenerosController").apiOnly()
+  Route.resource("/livro","LivrosController").apiOnly()
 
   
 }).prefix('/api').middleware('auth')
