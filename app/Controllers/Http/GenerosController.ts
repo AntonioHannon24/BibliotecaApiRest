@@ -1,7 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database';
 import Genero from 'App/Models/Genero';
+import Livro from 'App/Models/Livro';
 
 export default class GenerosController {
+
     public async store({request,response}:HttpContextContract){
         const body = request.body(); // pegando os valores do body
             const genero = await Genero.create(body)
@@ -18,10 +21,11 @@ export default class GenerosController {
         }
     }
     public async show({params}:HttpContextContract){
-        const genero = await Genero.findOrFail(params.id)
-    
+        const genero = await Genero.findOrFail(params.id)  
+        const quantidade = await Database.rawQuery("SELECT COUNT(*) from livros l WHERE genero_id = ?",params.id)
+
         return{
-            data:genero
+            data:(Object.assign({},genero.$attributes,quantidade['0']['0'])),
         }
     }
     public async destroy({params}:HttpContextContract){   
