@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Database from '@ioc:Adonis/Lucid/Database';
 
 import Autor from "App/Models/Autor";
 
@@ -21,9 +22,10 @@ export default class AutorsController {
     }
     public async show({params}:HttpContextContract){
         const autor = await Autor.findOrFail(params.id)
+        const quantidade = await Database.rawQuery("SELECT COUNT(*) from livros l WHERE autor_id = ?",params.id)
     
         return{
-            data:autor
+            data:(Object.assign({},autor.$attributes,quantidade['0']['0'])),
         }
     }
     public async destroy({params}:HttpContextContract){   
