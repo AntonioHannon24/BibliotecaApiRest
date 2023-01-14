@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.group(()=>{
+Route.group(()=>{//Login e criação de novos usuários
   
   Route.post('login', async ({ auth, request, response }) => {
     const email = request.input('email')
@@ -31,8 +31,7 @@ Route.group(()=>{
       return token
     } catch {
       return response.unauthorized('Invalid credentials')
-    }
-  })
+    }})
 
   Route.post('/usuarios',"UsuariosController.store") 
 
@@ -50,6 +49,7 @@ Route.group(()=>{// rotas para usuários autenticados
   Route.resource("/autor","AutorsController").apiOnly()
   Route.resource("/genero","GenerosController").apiOnly()
   Route.resource("/livro","LivrosController").apiOnly()
+  Route.resource("/estoque","EstoquesController").apiOnly()
 
   
 }).prefix('/api').middleware('auth')
