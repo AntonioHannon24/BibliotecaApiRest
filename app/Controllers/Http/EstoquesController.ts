@@ -11,17 +11,24 @@ export default class EstoquesController {
             message:"Produto cadastrado com sucesso!!",
             data: genero
         }
-}    
-public async index(){
+  }    
+  public async index(){
     const genero = await Estoque.query()
     return{
         data:genero
     }
-}
-
-  public async show({}: HttpContextContract) {}
-
+  }
+  public async show({params}: HttpContextContract) {
+    const estoque = await Estoque.findOrFail(params.id)
+    return{
+        data:estoque
+    }
+  }
   public async update({}: HttpContextContract) {}
 
-  public async destroy({}: HttpContextContract) {}
+  public async destroy({}: HttpContextContract) {
+    return{
+        message:"O estoque de um produto só é deletado caso o produto seja deletado!!"
+    }
+  }
 }
