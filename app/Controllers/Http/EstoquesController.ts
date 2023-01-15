@@ -13,6 +13,7 @@ export default class EstoquesController {
         }
   }    
   public async index(){
+
     const genero = await Estoque.query()
     return{
         data:genero

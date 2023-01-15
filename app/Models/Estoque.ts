@@ -6,7 +6,7 @@ export default class Estoque extends BaseModel {
   public id: number
 
   @column()
-  public livro_id:number
+  public livroId:number
 
   
   @column()

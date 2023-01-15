@@ -14,13 +14,14 @@ export default class LivrosController {
             }
     }    
     public async index(){
-        const livro = await Livro.query()
+        const livro = await Livro.query().preload('estoque')
         return{
             data:livro
         }
     }
     public async show({params}:HttpContextContract){
         const livro = await Livro.findOrFail(params.id)
+        await livro.load('estoque')
     
         return{
             data:livro

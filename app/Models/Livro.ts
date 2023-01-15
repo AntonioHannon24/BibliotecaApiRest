@@ -7,7 +7,7 @@ export default class Livro extends BaseModel {
   public id: number
 
   @hasMany(()=> Estoque)
-  public estabelecimentos:HasMany<typeof Estoque>
+  public estoque:HasMany<typeof Estoque>
 
   @column()
   public nome:string
