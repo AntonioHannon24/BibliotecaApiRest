@@ -36,13 +36,9 @@ import Usuario from 'App/Models/Usuario'
 
 export const { actions } = Bouncer
 
-.define('getEditRequests', (user: Usuario,params) => { 
+.define('getEditRequests',(user:Usuario,params)=>{if(user.role_id==2||user.id==params.id){return true;}return Bouncer.deny("Você não tem autorização para a ação!!",404)})
+.define('getAdminRequests',(user:Usuario)=>{if(user.role_id == 2){return true;}return Bouncer.deny('Você não é administrador!!',404)})
 
-    if(user.role_id == 2 || user.id == params.id){
-        return true;
-    }
-    return false;
-})
 
 
 /*

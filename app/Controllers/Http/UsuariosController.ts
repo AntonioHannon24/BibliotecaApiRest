@@ -3,7 +3,7 @@ import Usuario from 'App/Models/Usuario';
 
 export default class UsuariosController {
 
-  public async store({request,response}:HttpContextContract){
+public async store({request,response}:HttpContextContract){
     const body = request.body(); // pegando os valores do body
         const usuario = await Usuario.create(body)
         response.status(201)
@@ -12,9 +12,9 @@ export default class UsuariosController {
             data: usuario
         }
 }
-
-public async index(){
+public async index({bouncer}){
     const usuarios = await Usuario.query()
+    await bouncer.authorize('getAdminRequests');
     return{
         data:usuarios
     }
@@ -26,22 +26,17 @@ public async show({params,bouncer}:HttpContextContract){
     return{
         data:usuario
     }
-
-  
-
 }
-
 public async destroy({params,bouncer}:HttpContextContract){
     
     const usuario = await Usuario.findOrFail(params.id)
-    await bouncer.authorize('getEditRequests',params)
+    await bouncer.authorize('getAdminRequests');
     await usuario.delete()
     return{
         message:"Usuário Deletado Com Sucesso!!",
         data:usuario
     }
 }
-
 public async update({params,request,bouncer}:HttpContextContract){
 
     const body = request.body()
@@ -57,6 +52,5 @@ public async update({params,request,bouncer}:HttpContextContract){
             message:"Usuário Atualizado Com Sucesso!",
             data: usuario
         }
-
 }
 }
