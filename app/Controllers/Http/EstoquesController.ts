@@ -2,34 +2,35 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Estoque from 'App/Models/Estoque';
 
 export default class EstoquesController {
-
-  public async store({request,response}:HttpContextContract){
-    const body = request.body(); // pegando os valores do body
-        const genero = await Estoque.create(body)
-        response.status(201)
-        return{
-            message:"Produto cadastrado com sucesso!!",
-            data: genero
-        }
-  }    
-  public async index(){
-
-    const genero = await Estoque.query()
-    return{
-        data:genero
-    }
-  }
-  public async show({params}: HttpContextContract) {
+ 
+  public async decrementEstoque({params}){
+    
     const estoque = await Estoque.findOrFail(params.id)
-    return{
-        data:estoque
+    const quantidade = estoque.$attributes.quantidade
+    if(quantidade != 0){
+      estoque.quantidade--;
+      await estoque.save();
+      return{
+        message:"Venda efetuada com sucesso!!"
+      }
+    }else{
+      return{
+        message:"Você não tem estoque desse produto para efetuar a venda!!"
+      }
     }
+    
   }
-  public async update({}: HttpContextContract) {}
+  public async update({params,request}:HttpContextContract){
+    const body = request.body()
+        const estoque = await Estoque.findOrFail(params.id)
+                    
+        estoque.quantidade = body.quantidade
+        estoque.valor= body.valor
 
-  public async destroy({}: HttpContextContract) {
-    return{
-        message:"O estoque de um produto só é deletado caso o produto seja deletado!!"
-    }
-  }
+        await estoque.save()
+        return{
+            message:"Informações de estoque atualizadas com sucesso!!",
+            data: estoque
+        }
+}
 }

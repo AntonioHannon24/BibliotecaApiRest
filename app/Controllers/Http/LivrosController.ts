@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Estoque from 'App/Models/Estoque';
 import Livro from 'App/Models/Livro';
 
 export default class LivrosController {
@@ -7,6 +8,9 @@ export default class LivrosController {
     public async store({request,response}:HttpContextContract){
         const body = request.body(); // pegando os valores do body
             const livro = await Livro.create(body)
+            console.log(livro.$attributes.id)
+            const novoEstoque = {quantidade:0,valor:0,livroId:livro.$attributes.id}
+            await Estoque.create(novoEstoque);
             response.status(201)
             return{
                 message:"Livro cadastrado com sucesso!!",

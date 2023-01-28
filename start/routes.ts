@@ -46,11 +46,14 @@ Route.group(()=>{// rotas para usuários autenticados
   Route.delete("/usuarios/:id","UsuariosController.destroy")
   Route.patch("/usuarios/:id","UsuariosController.update")
 
+  Route.patch("/estoque","EstoquesController.update")
+  Route.get("/estoque/:id","EstoquesController.decrementEstoque")
+  Route.delete("/estoque/:id","EstoquesController.destroy")
+
   Route.resource("/autor","AutorsController").apiOnly()
   Route.resource("/genero","GenerosController").apiOnly()
   Route.resource("/livro","LivrosController").apiOnly()
-  Route.resource("/estoque","EstoquesController").apiOnly()
-
+  
   
 }).prefix('/api').middleware('auth')
 
