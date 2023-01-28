@@ -46,9 +46,9 @@ Route.group(()=>{// rotas para usuários autenticados
   Route.delete("/usuarios/:id","UsuariosController.destroy")
   Route.patch("/usuarios/:id","UsuariosController.update")
 
-  Route.patch("/estoque","EstoquesController.update")
+  Route.patch("/estoque/:id","EstoquesController.update")
   Route.get("/estoque/:id","EstoquesController.decrementEstoque")
-  Route.delete("/estoque/:id","EstoquesController.destroy")
+
 
   Route.resource("/autor","AutorsController").apiOnly()
   Route.resource("/genero","GenerosController").apiOnly()
